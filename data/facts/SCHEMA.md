@@ -14,8 +14,8 @@ ambiguous, leave the field `null` and say why in `note`.
     "2026": {
       "source": {
         "title": "2026 Ford RV & Trailer Towing Guide",
-        "url": "https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2026-Ford-RV-and-Trailer-Towing-Guide.pdf",
-        "copy": "https://web.archive.org/web/20251204182631/https://www.vdm.ford.com/...pdf",   // only if read from an archived copy, else null
+        "url": "www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2026-Ford-RV-and-Trailer-Towing-Guide.pdf",
+        "copy": "https://web.archive.org/web/20251204182631/www.vdm.ford.com/...pdf",   // only if read from an archived copy, else null
         "pages": "18-20",
         "read": "2026-10-20"
       },

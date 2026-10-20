@@ -72,7 +72,7 @@ function towOut(v: V, lockModel?: string): ToolOut {
   const r = y.rows[Number(s(v, 'c'))] ?? y.rows[0];
   const res = checkTow(ratingsOf(m, y, r, v), { trailer: n(v, 'tw'), tongue: n(v, 'tg'), people: n(v, 'pp'), cargo: n(v, 'cg'), hitch: n(v, 'hz') }, TONGUE, n(v, 'mg'));
   const over = res.checks.find((c) => c.ok === false && c.id !== 'tongue');
-  const value = res.verdict === 'over' ? (over ? `Over by ${lb(-(over.spare ?? 0))}` : 'Tongue share off') : res.verdict === 'tight' ? 'Within, little margin' : 'Within every rating';
+  const value = res.verdict === 'over' ? (over ? `Over by ${lb(-(over.spare ?? 0))}` : 'Tongue share off') : res.verdict === 'tight' ? 'Within, little margin' : res.checks.some((c) => c.ok === null) ? 'Within the ratings checked' : 'Within every rating';
   const rows = res.checks.map(checkRow);
   rows.push([`Heaviest trailer with this load (set by ${res.maxBy === 'gcwr' ? 'GCWR' : res.maxBy === 'gvwr' ? 'GVWR' : res.maxBy})`, lb(res.maxTrailer)]);
   return {
@@ -218,7 +218,25 @@ function brakesSpec(a: V = {}): ToolSpec {
   };
 }
 
-const TOOLS: Record<string, (a?: V) => ToolSpec> = { tow: towSpec, cap: capSpec, tongue: tongueSpec, payload: payloadSpec, gcwr: gcwrSpec, camper: camperSpec, axle: axleSpec, brakes: brakesSpec };
+
+/** Mini: minimum hitch class for a trailer weight (Chevrolet trailering guide, p. 7). */
+function hitchSpec(a: V = {}): ToolSpec {
+  const C = P.trailerClasses as Array<{ cls: string; name: string; upTo: number | null; hitch: string }>;
+  return {
+    inputs: [{ id: 'tw', label: 'Loaded trailer weight', def: Number(a.tw ?? 4500), unit: 'lb', max: 40000 }],
+    run: (v) => {
+      const w = n(v, 'tw');
+      const c = C.find((x) => x.upTo === null || w <= x.upTo)!;
+      return {
+        label: 'Minimum hitch class for this trailer', value: `Class ${c.cls}`,
+        rows: [['Class name', c.name], ['Hitch types', c.hitch], ...C.map((x) => [`Class ${x.cls}`, x.upTo === null ? `above ${lb(C[C.length - 2].upTo!)}` : `up to ${lb(x.upTo)}`] as [string, string])],
+        note: 'The receiver, ball mount and ball each carry their own rating; the lowest one counts.',
+      };
+    },
+  };
+}
+
+const TOOLS: Record<string, (a?: V) => ToolSpec> = { tow: towSpec, cap: capSpec, tongue: tongueSpec, payload: payloadSpec, gcwr: gcwrSpec, camper: camperSpec, axle: axleSpec, brakes: brakesSpec, hitch: hitchSpec };
 export const TOOL_KINDS = Object.keys(TOOLS);
 export function getTool(kind: string, args?: V): ToolSpec {
   const f = TOOLS[kind];

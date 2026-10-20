@@ -98,7 +98,10 @@ def main():
             if num(y.get('maxConventional')) not in (None, mx):
                 problems.append(f'{mid} {year}: maxConventional {y.get("maxConventional")} != {mx}')
             rows.sort(key=lambda r: (-(r.get('t') or 0), r['l']))
-            src = y['source']
+            src = dict(y['source'])
+            # Ford's own address answers 404 since October 2026: the dated Internet Archive copy we read becomes the link.
+            if 'vdm.ford.com' in src['url'] and src.get('copy'):
+                src['url'], src['copy'] = src['copy'], None
             m['years'].append({
                 'year': int(year), 'max': mx,
                 'maxFw': max((r.get('fw') or 0) for r in rows) or None, 'maxGn': max((r.get('gn') or 0) for r in rows) or None,
