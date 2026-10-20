@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /*?*
+
+Sitemap: https://us-towing-capacity.example/sitemap-index.xml

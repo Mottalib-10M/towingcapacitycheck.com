@@ -1,0 +1,114 @@
+{
+  "facts": [
+    {
+      "text": "Many states require a separate braking system on trailers with a loaded weight of more than 1,500 pounds; Ford recommends a separate functional brake system on any towed vehicle, including dolly-towed or towbar-towed.",
+      "page": 3,
+      "year": 2026
+    },
+    {
+      "text": "Trailer brake types described: electronically controlled brakes, electric-over-hydraulic (EOH) brakes (many compatible with the factory Trailer Brake Controller), and surge brakes; surge-brake hydraulics must never be connected to the tow vehicle's hydraulic system.",
+      "page": 3,
+      "year": 2026
+    },
+    {
+      "text": "Do not tow a trailer until the vehicle has been driven at least 1,000 miles.",
+      "page": 3,
+      "year": 2026
+    },
+    {
+      "text": "Always use safety chains, crossed under the trailer tongue, with only enough slack to permit full turning.",
+      "page": 3,
+      "year": 2026
+    },
+    {
+      "text": "Base Curb Weight is the vehicle with a full tank of fuel and all standard equipment, without passengers, cargo or optional equipment.",
+      "page": 6,
+      "year": 2026
+    },
+    {
+      "text": "Cargo Weight includes all weight added to Base Curb Weight, including optional equipment; trailer tongue load or king pin weight is part of Cargo Weight.",
+      "page": 6,
+      "year": 2026
+    },
+    {
+      "text": "Payload is the combined maximum allowable weight of cargo and passengers: GVWR minus Base Curb Weight.",
+      "page": 6,
+      "year": 2026
+    },
+    {
+      "text": "GVWR (Gross Vehicle Weight Rating) is the maximum allowable weight of the fully loaded vehicle, shown on the Safety Compliance Certification Label; GVW must never exceed GVWR.",
+      "page": 6,
+      "year": 2026
+    },
+    {
+      "text": "GAWR (Gross Axle Weight Rating) is the maximum weight to be carried by a single axle; the load on each axle must never exceed its GAWR.",
+      "page": 6,
+      "year": 2026
+    },
+    {
+      "text": "GCWR (Gross Combination Weight Rating) is the maximum allowable weight of the towing vehicle and loaded trailer, including all cargo and passengers; the measured GCW must never exceed GCWR.",
+      "page": 6,
+      "year": 2026
+    },
+    {
+      "text": "The towing vehicle's brake system is rated for operation at the GVWR, not GCWR; separate functional brakes should be used for trailers weighing more than 1,500 lbs. loaded.",
+      "page": 6,
+      "year": 2026
+    },
+    {
+      "text": "Maximum Loaded Trailer Weight assumes minimum towing vehicle GVW with mandatory options, no cargo, tongue load of 10% (conventional) or king pin weight of 15% (5th-wheel), and a driver and passenger of 150 lbs. each; additional options, passengers, cargo and hitch weight must be deducted.",
+      "page": 7,
+      "year": 2026
+    },
+    {
+      "text": "Tongue load: for trailers up to 2,000 lbs., not to exceed 200 lbs.; for conventional trailers over 2,000 lbs., 10% of loaded trailer weight; 5th-wheel king pin weight is 15% of loaded trailer weight.",
+      "page": 7,
+      "year": 2026
+    },
+    {
+      "text": "Examples: a 5,000-lb. conventional trailer needs a 500-lb. tongue load; an 11,500-lb. 5th-wheel trailer gives a 1,725-lb. king pin weight.",
+      "page": 7,
+      "year": 2026
+    },
+    {
+      "text": "Tongue load or king pin weight must not cause GVWR or rear GAWR to be exceeded.",
+      "page": 7,
+      "year": 2026
+    },
+    {
+      "text": "Weight distribution correction factor: 50% for Expedition, F-150, F-150 Lightning, F-150 Raptor, F-250/F-350 Super Duty and Super Duty Chassis Cab; F-450 pickup 25% Regular Cab, 50% Crew Cab; not required for Explorer, Maverick, Ranger, Bronco, Bronco Sport, Escape, Mustang; Transit use not recommended.",
+      "page": 8,
+      "year": 2026
+    },
+    {
+      "text": "Weight-distributing hitch setup: measure front fender lip height unhitched (H1) and hitched without bars (H2); target height = H2 minus (H2 - H1) x correction factor.",
+      "page": 8,
+      "year": 2026
+    },
+    {
+      "text": "Approximately 60% of the allowable cargo weight should be in the front half of the trailer and 40% in the rear, within tongue load or king pin limits.",
+      "page": 9,
+      "year": 2026
+    },
+    {
+      "text": "At high altitude, reduce GVW and GCW by 2% per 1,000 ft. of elevation.",
+      "page": 9,
+      "year": 2026
+    },
+    {
+      "text": "A conventional, identical full-size spare tire is required for trailer towing.",
+      "page": 9,
+      "year": 2026
+    },
+    {
+      "text": "The charts show the minimum powertrain needed for acceptable towing performance at the listed GCW; large frontal area or hilly terrain may call for a higher rating.",
+      "page": 9,
+      "year": 2026
+    },
+    {
+      "text": "Tow capability could be reduced based on the weight of the selected trim series and option content.",
+      "page": 9,
+      "year": 2026
+    }
+  ]
+}

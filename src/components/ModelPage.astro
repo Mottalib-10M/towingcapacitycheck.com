@@ -1,0 +1,62 @@
+---
+/** A vehicle page: H1, one-line answer, the checker set on this vehicle, the folded answer, the body, then the
+ *  tables generated from the maker's documents (maximum by year, by engine, every configuration), FAQ, sources. */
+import PageLayout from '../layouts/PageLayout.astro';
+import Clamp from './Clamp.astro';
+import Tool from './Tool.astro';
+import Body from './Body.astro';
+import { route, ROUTES } from '../i18n/routes';
+import { label } from '../i18n/nav';
+import { t } from '../i18n/ui';
+import { guideById, modelPageById, modelPageId } from '../lib/pages';
+import { helpers, SOURCES, table, ext } from '../lib/helpers';
+import { KIT as K } from '../lib/kit';
+import { modelOf, fullName, byEngine, pagesText } from '../lib/data';
+import { articleSchema, faqSchema, breadcrumbSchema, webPageSchema, webApplicationSchema } from '../lib/seo';
+import { AUTHOR_NAME } from '../data/site-config';
+import type { ModelDef } from '../lib/page-types';
+interface Props { def: ModelDef }
+const { def } = Astro.props;
+const lang = 'en';
+const ui = t(lang);
+const id = modelPageId(def.id);
+const path = route(id, lang);
+const m = modelOf(def.id);
+const nm = fullName(m);
+const y0 = m.years[0];
+const jsonLd = [webApplicationSchema({ name: def.h1, description: def.description, path, lang }), articleSchema({ title: def.h1, description: def.description, path, lang }), webPageSchema({ name: def.h1, description: def.description, path, lang }), breadcrumbSchema([{ name: ui.breadcrumbHome, path: route('home', lang) }, { name: `${nm} towing capacity`, path }])];
+if (def.faqs.length) jsonLd.push(faqSchema(def.faqs, lang));
+const card = (rid: string) => guideById(rid)?.card ?? (modelPageById(rid) ? modelPageById(rid)!.intro : '');
+const related = def.related.filter((rid) => ROUTES.some((r) => r.id === rid)).map((rid) => ({ href: route(rid, lang), name: label(rid), description: card(rid) }));
+const docLink = (y: typeof y0) => `${ext(y.src.url, y.src.title)}${y.src.copy ? ` (${ext(y.src.copy, 'archived copy')})` : ''}, ${pagesText(y.src.pages)}`;
+const years = m.years.map((y) => [String(y.year), K.lb(y.max), K.lb(y.min), y.rows.length, y.maxPl ? K.lb(y.maxPl) : 'not printed', docLink(y)]);
+const engines = byEngine(y0).map((e) => [e.engine, K.lb(e.max), e.min === e.max ? 'same' : K.lb(e.min), e.n]);
+const opt = (x?: number) => (x ? K.num(x) : '');
+const all = y0.rows.map((r) => [r.l, r.t ? K.num(r.t) : '', opt(r.gcwr), opt(r.gvwr), opt(r.pl), opt(r.cw), String(r.p ?? '')]);
+const sources = [
+  ...m.years.map((y) => ({ name: `${y.src.title} (${m.make})`, url: y.src.url })),
+  ...['nhtsa_towing', 'cfr_567_4'].filter((k) => SOURCES[k]).map((k) => ({ name: SOURCES[k].label, url: SOURCES[k].url })),
+];
+---
+<PageLayout title={def.title} description={def.description} lang={lang} jsonLd={jsonLd} faqs={def.faqs} related={related} sources={sources} breadcrumbs={[{ label: 'Vehicles' }, { label: nm }]}>
+  <article>
+    <header class="mb-4">
+      <h1 class="font-serif text-[1.75rem] font-bold text-navy-900 max-sm:leading-tight sm:text-3xl md:text-4xl">{def.h1}</h1>
+      <p class="mt-2 text-base text-navy-700 sm:text-lg">{def.intro}</p>
+    </header>
+    <div data-outil data-chrome class="mb-4"><Tool kind="tow" arg={{ m: def.id, tw: def.trailer ?? Math.round(y0.max * 0.7 / 100) * 100 }} idPrefix={`m${def.order}`} /></div>
+    <p class="mb-6 text-sm text-navy-600">{ui.reviewedBy} <a href={route('about', lang)} class="underline hover:text-navy-900">{AUTHOR_NAME}</a> · <a href={route('method', lang)} class="underline hover:text-navy-900">{label('method')}</a> · {m.make} documents read {K.day(K.RETRIEVED)}</p>
+    <Clamp text={def.resume} lang={lang} id={`clamp-${def.id}`} class="mb-8" />
+    <Body html={def.body(helpers())} path={path} />
+    <section data-chrome class="mt-10">
+      <h2 class="font-serif text-2xl font-bold text-navy-900">{nm} towing capacity by model year</h2>
+      <Fragment set:html={table(['Model year', 'Highest rating', 'Lowest rating', 'Configurations', 'Highest payload', 'Maker document'], years, `Conventional (bumper-pull) trailer weight ratings as printed by ${m.make}, every configuration of each year's table.`, ['l', 'r', 'r', 'r', 'r', 'l'])} />
+      <h2 class="mt-8 font-serif text-2xl font-bold text-navy-900">{y0.year} {nm} by engine</h2>
+      <Fragment set:html={table(['Engine', 'Highest rating', 'Lowest rating', 'Rows'], engines, `${y0.src.title}, ${pagesText(y0.src.pages)}.`, ['l', 'r', 'r', 'r'])} />
+      <details class="fold mt-6">
+        <summary><span class="fold-h">Every configuration of the {y0.year} table ({y0.rows.length} rows)</span></summary>
+        <Fragment set:html={table(['Configuration', 'Rating (lb)', 'GCWR', 'GVWR', 'Payload', 'Curb or base', 'Page'], all, `Blank cell: the ${m.make} document does not print that weight for the row.`, ['l', 'r', 'r', 'r', 'r', 'r', 'r'])} />
+      </details>
+    </section>
+  </article>
+</PageLayout>

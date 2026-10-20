@@ -1,0 +1,33 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import LegalIdentity from '../../components/LegalIdentity.astro';
+import { route } from '../../i18n/routes';
+import { AUTHOR_NAME, AUTHOR_DESC, CONTACT_EMAIL, SITE_NAMES } from '../../data/site-config';
+import { VALUE } from '../../content/home';
+import { KIT as K } from '../../lib/kit';
+import { profilePageSchema, breadcrumbSchema } from '../../lib/seo';
+const lang = 'en';
+const path = route('about', lang);
+const makes = [...new Set(K.MODELS.map((m) => m.make))];
+const nRows = K.MODELS.reduce((a, m) => a + m.years.reduce((b, y) => b + y.rows.length, 0), 0);
+const title = `Towing Capacity Check ${K.P.year}: Who Reads the Makers' Guides`;
+const description = `Towing capacity ratings copied from the makers' own ${K.P.year} guides by Radif Partners, an independent publisher: no dealer, no hitch shop, no lead form or partner.`;
+---
+<PageLayout title={title} description={description} lang={lang} jsonLd={[profilePageSchema({ path, lang }), breadcrumbSchema([{ name: 'Home', path: route('home', lang) }, { name: 'About', path }])]} breadcrumbs={[{ label: 'About' }]}>
+  <article class="prose prose-slate max-w-none prose-headings:font-serif">
+    <h1>About {SITE_NAMES.en}</h1>
+    <p>{AUTHOR_DESC.en}</p>
+    <h2>The gap this site fills</h2>
+    <p>Ask a search engine how much a truck can tow and the answers come from three kinds of pages. Dealers and RV lots publish one headline figure and a form to request a quote. Magazines rank vehicles by their best rating, without the configuration that reaches it or the payload that limits it. The makers themselves print the complete tables, but in long PDF guides that change every model year and that few people open. None of them takes your own trailer, family and gear and tells you which limit you reach first.</p>
+    <p>{VALUE}</p>
+    <h2>Who publishes it</h2>
+    <p>The site is published by {AUTHOR_NAME}, a company that builds calculators on public rules and public data. It is not a vehicle maker, a dealer, a hitch installer, an RV seller or an insurer. It has no partner to send you to, receives no commission and carries no affiliate link.</p>
+    <LegalIdentity lang={lang} />
+    <h2>What we rely on</h2>
+    <p>{K.num(nRows)} configuration rows from the towing documents of {makes.join(', ')}, each stored with its model year, its document and its page; the federal rules on the certification label (49 CFR 567.4) and the tire and loading placard (49 CFR 571.110), which say where the GVWR, the axle ratings and the payload of your own vehicle are printed.</p>
+    <h2>What the site leaves out</h2>
+    <p>Vehicles whose maker's documents could not be read and cited, Toyota first among them; model years before the earliest document we hold; aftermarket hitches, suspension kits and their claims; and state trailer laws, which we describe only where a maker's guide does. The <a href={route('method', lang)}>method page</a> lists every document and reading rule; the <a href={route('editorial', lang)}>editorial policy</a> explains corrections.</p>
+    <h2>Contact</h2>
+    <p><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>, for corrections and newer guides. We answer questions about a figure or a document, not about whether your own rig is safe to drive.</p>
+  </article>
+</PageLayout>

@@ -1,0 +1,23 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { route } from '../../i18n/routes';
+import { AUTHOR_NAME, REVIEW_CYCLE_MONTHS } from '../../data/site-config';
+const lang = 'en';
+---
+<PageLayout title="Editorial policy of Towing Capacity Check: maker tables only" description="How Towing Capacity Check writes its pages: ratings copied from makers' towing guides and spec sheets with their page, never from dealers, forums or magazine lists." lang={lang} noindex={true} breadcrumbs={[{ label: 'Editorial policy' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none prose-headings:font-serif">
+    <h1>Editorial policy</h1>
+    <h2>Which documents count</h2>
+    <p>A rating enters the site only when the maker prints it: the yearly RV and trailer towing guide of Ford, the trailering guide and charts of Chevrolet, the towing charts and specification sheets that Stellantis posts for Ram and Jeep on its media site, the specification pages of Kia's newsroom. Each row keeps the title of the document, its model year and the page. Dealer pages, magazine rankings and owner forums are read to learn what towing owners ask; their numbers are never copied.</p>
+    <h2>Rows, not maxima</h2>
+    <p>The headline "up to" figure of a model belongs to one configuration. We keep every row of the maker's table, with the engine, the drive, the cab, the bed or wheelbase, the axle ratio and the package that the row requires, so that a reader can find the line that matches the truck in the driveway.</p>
+    <h2>Nothing typed by hand</h2>
+    <p>No rating is written into the text of a page. A script turns the copied rows into one table, and the pages and the checker read that table when the site is built. A cell the maker leaves blank stays blank: we never fill a payload, a GVWR or a curb weight that the document does not give.</p>
+    <h2>What the site does not judge</h2>
+    <p>It does not say that a truck is better than another, that a hitch brand is safe or that a trailer suits a family. Whether a given vehicle may tow a given trailer is decided by the labels on that vehicle and that trailer; the checker only lays the published limits side by side.</p>
+    <h2>Independence</h2>
+    <p>{AUTHOR_NAME} receives nothing from automakers, dealers, RV sellers, hitch makers or lenders, and links to none of them as a sponsor. There is no advertising today; if some is added it will be labeled, limited to three places a page and kept away from the checker.</p>
+    <h2>Review and corrections</h2>
+    <p>The tables are reread at least every {REVIEW_CYCLE_MONTHS} months and each time a maker posts the guide of a new model year. A reported error is checked against the maker's page and, once fixed, moves the date shown at the bottom of the page. Write through the <a href={route('contact', lang)}>contact page</a>; how the rows are read is on the <a href={route('method', lang)}>method page</a>.</p>
+  </div>
+</PageLayout>

@@ -1,0 +1,211 @@
+{
+ "_lisezmoi": "Paramètres du site (RECETTE §4), relus sur les documents cités le 2026-10-20. Les capacités par véhicule ne sont pas ici : elles viennent de data/facts/ par scripts/build-data.py (src/data/towing.json).",
+ "year": 2026,
+ "retrieved_at": "2026-10-20",
+ "valid_from": "2026-10-20",
+ "valid_to": "2027-10-19",
+ "tongue": {
+  "conventional": {
+   "min": 10,
+   "max": 15,
+   "_source": "gm_2026 p. 8 and p. 9: tongue weight 10% to 15% of the loaded trailer weight for conventional trailering"
+  },
+  "atMaxRating": {
+   "conventional": 10,
+   "fifthWheel": 15,
+   "_source": "gm_2026 p. 8: when towing the maximum trailer weight, the maximum tongue weight is 10% for conventional and 15% for gooseneck/fifth-wheel"
+  },
+  "fifthWheel": {
+   "min": 15,
+   "max": 25,
+   "_source": "gm_2026 p. 8 and p. 28: kingpin weight 15% to 25% of the loaded trailer weight"
+  }
+ },
+ "hitchWeight": {
+  "conventional": 75,
+  "gooseneck": 70,
+  "fifthWheel": 250,
+  "_source": "ram_hd_2025 notes 12: trailering equipment weight 75 lb conventional, 70 lb gooseneck, 250 lb 5th wheel (2025 Ram 2500 chart)"
+ },
+ "ramAssumptions": {
+  "passengers": 300,
+  "options": 100,
+  "_source": "ram_hd_2025 notes 9 to 11: ratings per SAE J2807, passenger weight 300 lb, options weight 100 lb"
+ },
+ "gmIncluded": {
+  "driver": 150,
+  "passenger": 150,
+  "_source": "gm_2026 p. 7: base curb weight plus 150 lbs each for the driver and a front passenger"
+ },
+ "brakes": [
+  {
+   "who": "Ford (all models in its towing guide)",
+   "above": 1500,
+   "_source": "ford_2026 p. 6: separate functional brakes should be used for trailers weighing more than 1,500 lbs. loaded"
+  },
+  {
+   "who": "Chevrolet Silverado, Suburban, Tahoe",
+   "above": 2000,
+   "_source": "gm_2026 p. 6"
+  },
+  {
+   "who": "Other Chevrolet models (Colorado)",
+   "above": 1500,
+   "_source": "gm_2026 p. 6"
+  }
+ ],
+ "tahoeHitch": {
+  "wcTongue": 600,
+  "wcTrailer": 5000,
+  "maxTongue": 1250,
+  "_source": "gm_2026 p. 41"
+ },
+ "ramHdHitch": {
+  "fifthWheelAbove": 23000,
+  "gooseneckAbove": 30000,
+  "_source": "ram_hd_2025 notes 16 and 17"
+ },
+ "trailerClasses": [
+  {
+   "cls": "I",
+   "name": "Light-Duty",
+   "upTo": 2000,
+   "hitch": "conventional"
+  },
+  {
+   "cls": "II",
+   "name": "Medium-Duty",
+   "upTo": 3500,
+   "hitch": "conventional"
+  },
+  {
+   "cls": "III",
+   "name": "Heavy-Duty",
+   "upTo": 5000,
+   "hitch": "conventional or weight-distributing"
+  },
+  {
+   "cls": "IV",
+   "name": "Extra Heavy-Duty",
+   "upTo": 10000,
+   "hitch": "conventional, weight-distributing, fifth-wheel or gooseneck"
+  },
+  {
+   "cls": "V",
+   "name": "Maximum Heavy-Duty",
+   "upTo": null,
+   "hitch": "conventional, weight-distributing, fifth-wheel or gooseneck"
+  }
+ ],
+ "_trailerClasses_source": "gm_2026 p. 7, minimum recommended hitch by trailer class",
+ "waterLbPerGallon": 8.34,
+ "_water_source": "usgs_water: 62.366 lb per cubic foot at 60 °F; a US gallon is 231 cubic inches (0.13368 cubic foot): 62.366 x 0.13368 = 8.34 lb",
+ "sources": {
+  "gm_2026": {
+   "url": "https://www.chevrolet.com/content/dam/chevrolet/na/us/english/index/trucks/trailering-and-towing/news/v2/CH-CAT-GEN-TRBRND020_2026%20Chevrolet%20Trailering%20Guidev2.pdf",
+   "label": {
+    "en": "Chevrolet, 2026 Trailering Guide (PDF)"
+   }
+  },
+  "gm_page": {
+   "url": "https://www.chevrolet.com/trucks/trailering-and-towing-guide",
+   "label": {
+    "en": "Chevrolet, Trailering and towing guide (charts by model year)"
+   }
+  },
+  "ram1500_2026": {
+   "url": "https://media.stellantisnorthamerica.com/view-spec.do?id=27906",
+   "label": {
+    "en": "Stellantis media, 2026 Ram 1500 Trailer Towing Charts"
+   }
+  },
+  "ram_hd_2025": {
+   "url": "https://media.stellantisnorthamerica.com/view-spec.do?id=26556",
+   "label": {
+    "en": "Stellantis media, 2025 Ram Heavy Duty Towing Charts (notes on SAE J2807 assumptions)"
+   }
+  },
+  "ram2500_2026": {
+   "url": "https://media.stellantisnorthamerica.com/view-spec.do?id=27019",
+   "label": {
+    "en": "Stellantis media, 2026 Ram 2500 Heavy Duty Trailer Towing Charts"
+   }
+  },
+  "jeep_gc_2026": {
+   "url": "https://media.stellantisnorthamerica.com/view-spec.do?id=27148",
+   "label": {
+    "en": "Stellantis media, 2026 Jeep Grand Cherokee Specifications"
+   }
+  },
+  "kia_telluride_2025": {
+   "url": "https://www.kiamedia.com/us/en/models/telluride/2025/specifications",
+   "label": {
+    "en": "Kia America newsroom, 2025 Telluride specifications"
+   }
+  },
+  "cfr_567_4": {
+   "url": "https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-567/section-567.4",
+   "label": {
+    "en": "49 CFR 567.4, certification label: GVWR and GAWR on the door pillar (eCFR)"
+   }
+  },
+  "cfr_571_110": {
+   "url": "https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-571/subpart-B/section-571.110",
+   "label": {
+    "en": "49 CFR 571.110 (FMVSS 110), tire and loading information placard: combined weight of occupants and cargo (eCFR)"
+   }
+  },
+  "usgs_water": {
+   "url": "https://www.usgs.gov/special-topics/water-science-school/science/water-density",
+   "label": {
+    "en": "USGS Water Science School, Water density (weight per cubic foot by temperature)"
+   }
+  },
+  "ford_2026": {
+   "url": "https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2026-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "copy": "https://web.archive.org/web/20251204182631/https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2026-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "label": {
+    "en": "Ford, 2026 RV & Trailer Towing Guide (PDF)"
+   }
+  },
+  "ford_2025": {
+   "url": "https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2025-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "copy": "https://web.archive.org/web/20250330222552/https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2025-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "label": {
+    "en": "Ford, 2025 RV & Trailer Towing Guide (PDF)"
+   }
+  },
+  "ford_2024": {
+   "url": "https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2024-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "copy": "https://web.archive.org/web/20240604202407/https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2024-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "label": {
+    "en": "Ford, 2024 RV & Trailer Towing Guide (PDF)"
+   }
+  },
+  "ford_2023": {
+   "url": "https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2023-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "copy": "https://web.archive.org/web/20250617002623/https://www.vdm.ford.com/content/dam/brand_ford/en_us/brand/towing/pdf/2023-Ford-RV-and-Trailer-Towing-Guide.pdf",
+   "label": {
+    "en": "Ford, 2023 RV & Trailer Towing Guide (PDF)"
+   }
+  }
+ },
+ "fordTongue": {
+  "lightTrailerUpTo": 2000,
+  "lightTrailerMaxTongue": 200,
+  "conventional": 10,
+  "kingPin": 15,
+  "_source": "ford_2026 p. 7"
+ },
+ "altitude": {
+  "percentPer1000ft": 2,
+  "_source": "ford_2026 p. 9: reduce GVW and GCW by 2% per 1,000 ft. of elevation"
+ },
+ "f150Hitch": {
+  "wc": 5000,
+  "wcTongue": 500,
+  "wd": 13500,
+  "wdTongue": 1400, "maxNoPack": 11600, "maxTowReceiver": 14000, "hybridSummary": 11600, "_source2": "ford_2026 p. 19: trailers over 11,600 lbs. need Tow/Haul Package (53T) and optional Max Tow Axle, standard 2-inch receiver rated 11,600, Max Tow Axle receiver 14,000; p. 12 performance table prints Hybrid max towing 11,600",
+  "_source": "ford_2026 p. 19: hitch receiver weight-carrying 5,000 lbs./500 tongue; weight-distributing 13,500 lbs./1,400 tongue"
+ }
+}

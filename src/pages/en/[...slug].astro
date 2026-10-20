@@ -1,0 +1,14 @@
+---
+/** Every topic page (src/content/guides) and every vehicle page (src/content/models). */
+import ContentPage from '../../components/ContentPage.astro';
+import ModelPage from '../../components/ModelPage.astro';
+import { GUIDES, MODEL_PAGES, modelSlug } from '../../lib/pages';
+export function getStaticPaths() {
+  return [
+    ...MODEL_PAGES.map((def) => ({ params: { slug: modelSlug(def.id) }, props: { kind: 'm', def } })),
+    ...GUIDES.map((page) => ({ params: { slug: page.slug }, props: { kind: 'g', def: page } })),
+  ];
+}
+const { kind, def } = Astro.props as { kind: 'g' | 'm'; def: any };
+---
+{kind === 'g' ? <ContentPage page={def} /> : <ModelPage def={def} />}

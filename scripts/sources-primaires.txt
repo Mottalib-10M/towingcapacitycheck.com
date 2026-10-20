@@ -1,0 +1,11 @@
+# Sources primaires propres a ce site (lues par sources_officielles.py, cf. scripts/sources-officielles.txt).
+# Les capacites de remorquage n'existent que dans les documents des constructeurs : ce sont eux qui certifient
+# le vehicule (49 CFR 567.4) et fixent ses limites (GVWR, GCWR, poids remorquable).
+# Ford : RV & Trailer Towing Guide de chaque annee-modele
+vdm.ford.com
+# Chevrolet (General Motors) : Trailering Guide de chaque annee-modele
+chevrolet.com
+# Stellantis (Ram, Jeep) : fiches techniques et tableaux de remorquage de la salle de presse
+media.stellantisnorthamerica.com
+# Kia America : fiches techniques de la salle de presse
+kiamedia.com

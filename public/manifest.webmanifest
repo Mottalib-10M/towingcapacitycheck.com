@@ -1,0 +1,21 @@
+{
+ "name": "Towing Capacity Check",
+ "short_name": "Towing Capacity Check",
+ "description": "Towing capacity by truck and SUV, model year and configuration, read in the makers' towing guides, plus a check of your trailer against GVWR, GCWR and payload.",
+ "start_url": "/en/",
+ "display": "standalone",
+ "background_color": "#ffffff",
+ "theme_color": "#2E5E4E",
+ "icons": [
+  {
+   "src": "/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}

@@ -1,0 +1,45 @@
+/** Text of the home page (the pillar). Every figure comes from the kit. */
+import { KIT as K } from '../lib/kit';
+import type { FAQ, Helpers } from '../lib/page-types';
+
+const f150 = K.Y('f-150');
+const ram = K.Y('ram-1500');
+const silv = K.Y('silverado-1500');
+const f250 = K.Y('f-250');
+const nRows = K.MODELS.reduce((a, m) => a + m.years.reduce((b, y) => b + y.rows.length, 0), 0);
+const ramLow = ram.rows.find((r) => r.t === ram.min)!;
+const ramTop = K.top('ram-1500');
+const f150Eng = K.engines('f-150');
+
+/** The value sentence (RECETTE §2.4), shown on the home page, the About page and the method page. */
+export const VALUE = `The pages that rank for towing capacity belong to dealers and RV lots, who want your phone number, to magazines that print one "up to" figure per model, and to the makers themselves, who bury the full tables in PDF guides. This site copies every configuration row of those guides, with the model year and the page, and then checks your own trailer against the five limits that decide whether a tow is legal: trailer rating, tongue weight, payload, GVWR and GCWR. Nothing to sign up for, nothing for sale.`;
+
+export const HOME = {
+  title: 'Towing Capacity 2026: Every Truck and SUV, Trailer Check',
+  description: `Towing capacity 2026 for ${K.MODELS.length} trucks and SUVs, ${K.num(nRows)} configurations from the makers' guides, and a free check of your trailer against payload, GVWR and GCWR.`,
+  h1: 'Towing capacity by vehicle, and can yours pull that trailer?',
+  intro: 'Pick the vehicle, the model year and the exact configuration, then enter the trailer: the checker tests the trailer rating, tongue weight, payload, GVWR and GCWR at once.',
+  resume: `Towing capacity is not one number per truck. Ford prints ${K.num(f150.rows.length)} rows for the ${f150.year} F-150, from ${K.lb(f150.min)} to ${K.lb(f150.max)}, and the gap comes from the engine, the cab, the wheelbase, the axle ratio and whether the Max Tow Axle and its package are fitted. The ${ram.year} Ram 1500 ranges from ${K.lb(ram.min)} with the ${ramLow.e ?? 'base engine'} to ${K.lb(ram.max)} with the ${ramTop.e} and a ${ramTop.ax} axle; the ${silv.year} Silverado 1500 from ${K.lb(silv.min)} to ${K.lb(silv.max)}. Even the right row is only a ceiling: it assumes a nearly empty vehicle, usually a driver and one passenger at 150 lb each. Every pound of family, gear, hitch hardware and tongue weight comes out of the payload, and the heavier the load in the cab, the sooner the combination reaches its GCWR. That is why the checker asks for the trailer, the people and the cargo, and shows which limit you hit first.`,
+  why: (h: Helpers) => `
+<h2>Five limits, and the one that stops you first</h2>
+<p>A tow is within the rules only when five numbers hold together. The <strong>trailer weight rating</strong> is the row of the maker's table that matches your vehicle. The <strong>tongue weight</strong> must sit between ${K.P.tongue.conventional.min} and ${K.P.tongue.conventional.max}% of the loaded trailer for a bumper-pull hitch, the range Chevrolet prints in its ${h.src('gm_2026', 'trailering guide')}; too little and the trailer sways, too much and the rear axle sags. The <strong>payload</strong> is what the truck may carry on top of its own weight, and the tongue counts as cargo. The <strong>GVWR</strong> caps the loaded truck alone, the <strong>GCWR</strong> caps truck and trailer together. Owners usually check the first and forget the last three, and that is where most overloads hide.</p>
+<p>The trailer rating itself already spends part of the other limits. Ford and Chevrolet compute it for a vehicle with only a driver and a front passenger of 150 lb each and no cargo (Ford ${h.src('ford_2026', 'guide')}, p. 7; Chevrolet guide, p. 7). Ram follows the SAE J2807 procedure and counts ${K.num(K.P.ramAssumptions.passengers)} lb of passengers, ${K.num(K.P.ramAssumptions.options)} lb of options and ${K.num(K.P.hitchWeight.conventional)} lb of hitch hardware (${h.src('ram_hd_2025', 'Ram chart notes')}). Load a family of four, a cooler and bikes in the bed, and the trailer you may legally pull drops pound for pound.</p>
+${h.mini('tongue', { t: 'Tongue weight for your trailer', p: ['tw'], d: { tw: 6500 } })}
+<h2>Why the configuration matters more than the model</h2>
+<p>The headline number of a half-ton pickup belongs to one row. On the ${f150.year} F-150 the ${f150Eng[0].engine} reaches ${K.lb(f150Eng[0].max)}, while the ${f150Eng[f150Eng.length - 1].engine} tops out at ${K.lb(f150Eng[f150Eng.length - 1].max)}. On the Ram 1500, the same engine gains thousands of pounds when the axle ratio goes from 3.21 to 3.92, because the shorter gearing lets it pull a heavier combination up a grade. Two trucks with the same badge on the same dealer lot can differ by more than the weight of a small camper.</p>
+<p>The fix is simple: find your exact row. The window sticker or the build sheet gives the engine, the axle ratio and the packages; the door pillar gives the GVWR, the axle ratings and, on many trucks, the payload. The checker lists every row of the maker's table for your model year, heaviest first, with the page it comes from, so you can match it line by line.</p>
+${h.mini('axle', { t: 'Ratings by axle ratio', p: ['m', 'y'], d: { m: 'ram-1500' } })}
+<h2>Heavy duty pickups and fifth wheels</h2>
+<p>Three-quarter-ton trucks change the scale. The ${f250.year} F-250 is rated up to ${K.lb(f250.max)} on a conventional hitch${f250.maxGn ? ` and ${K.lb(f250.maxGn)} with a gooseneck` : ''}, and the Ram 2500 up to ${K.lb(K.max('ram-2500'))}. At those weights the hitch type matters: Ram's chart notes require a fifth-wheel hitch above ${K.num(K.P.ramHdHitch.fifthWheelAbove)} lb and a gooseneck above ${K.num(K.P.ramHdHitch.gooseneckAbove)} lb, and the pin weight of a fifth wheel runs ${K.P.tongue.fifthWheel.min} to ${K.P.tongue.fifthWheel.max}% of the trailer, far more than a bumper-pull tongue. The ${h.a('fifth-wheel-vs-gooseneck', 'fifth wheel and gooseneck page')} works through it.</p>
+<h2>What the checker cannot see</h2>
+<p>It does not know the options on your truck, so it cannot know its real curb weight; a scale ticket does. It does not know the receiver installed on your truck, whose own label can be lower than the vehicle rating; Ford, for example, limits a weight-carrying hitch on the F-150 to ${K.num(K.P.f150Hitch.wc)} lb in its notes. It does not know your state's trailer brake law. When a maker's table leaves a cell blank, the checker leaves the test open and asks you for the figure from your door label. The ${h.a('method', 'method page')} lists each document and how its rows were read.</p>
+`,
+  faqs: [
+    { q: 'What is the towing capacity of my truck exactly?', a: `It is the row of the maker's towing table that matches your engine, drive, cab, bed or wheelbase, axle ratio and tow package for your model year. The ${f150.year} F-150 alone has ${K.num(f150.rows.length)} rows between ${K.lb(f150.min)} and ${K.lb(f150.max)}. Your window sticker gives the configuration; the checker above lists every row with the page of the guide it comes from.` },
+    { q: 'Can I tow up to the full rating with my family in the truck?', a: 'Usually not. Ford and Chevrolet compute the rating with only a driver and a front passenger of 150 lb each and no cargo, so every extra passenger, cooler or bed load, plus the hitch, reduces what you may pull. The GCWR caps truck and trailer together, and the payload caps what rides on the truck, tongue included.' },
+    { q: 'Where do these towing numbers come from?', a: `From the makers' own documents for each model year: Ford's RV and Trailer Towing Guide, Chevrolet's Trailering Guide, the Ram and Jeep charts and specification sheets on the Stellantis media site, and Kia's newsroom specifications. ${K.num(nRows)} rows in all, each with its page. Dealer pages, magazine lists and forums were never used as a source.` },
+    { q: 'What happens if my trailer is heavier than my truck can tow?', a: 'You are outside the ratings the maker certified for brakes, axles, cooling and frame, and an insurer or a court can treat the overload as negligence after a crash. Before buying a trailer, compare its loaded weight, not its dry weight, with your row; the checker shows the heaviest trailer that fits once your people and cargo are aboard.' },
+    { q: 'Why is there no Toyota, Tacoma or Tundra on the site?', a: 'Because the documents that rate them could not be read here. Toyota publishes its towing figures on toyota.com and its press site, which refused our automated reading in October 2026, and we only publish a rating copied from the maker. The Toyota models will be added when their specification pages can be read and cited like the others.' },
+  ] as FAQ[],
+  sources: ['ford_2026', 'gm_2026', 'ram1500_2026', 'ram2500_2026', 'jeep_gc_2026', 'kia_telluride_2025', 'cfr_567_4', 'cfr_571_110'],
+};

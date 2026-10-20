@@ -1,0 +1,66 @@
+---
+/**
+ * Home (the pillar): the checker first, the folded answer, a ranked bar list of each vehicle's highest rating,
+ * the explanation in prose, then the vehicles by class. Text: src/content/home.ts. Generated blocks carry data-chrome.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import Clamp from './Clamp.astro';
+import Tool from './Tool.astro';
+import Body from './Body.astro';
+import { HOME, VALUE } from '../content/home';
+import { route } from '../i18n/routes';
+import { helpers, SOURCES } from '../lib/helpers';
+import { MODEL_PAGES, modelPageId } from '../lib/pages';
+import { KIT as K } from '../lib/kit';
+import { fullName, CLASS_LABEL } from '../lib/data';
+import { faqSchema, organizationSchema, websiteSchema, webPageSchema, webApplicationSchema } from '../lib/seo';
+import { LAST_UPDATED } from '../data/site-config';
+const lang = 'en';
+const x = HOME;
+const path = route('home', lang);
+const h = helpers();
+const sources = x.sources.map((k) => ({ name: SOURCES[k].label, url: SOURCES[k].url }));
+const jsonLd = [websiteSchema(lang), organizationSchema(lang), webPageSchema({ name: x.h1, description: x.description, path, lang }), webApplicationSchema({ name: x.h1, description: x.description, path, lang }), faqSchema(x.faqs, lang)];
+const hasPage = (id: string) => MODEL_PAGES.some((p) => p.id === id);
+const rank = K.rank();
+const top = rank[0].y.max;
+const nRows = K.MODELS.reduce((a, m) => a + m.years.reduce((b, y) => b + y.rows.length, 0), 0);
+const classes = [...new Set(K.MODELS.map((m) => m.class))].map((c) => ({ c, ms: rank.filter((r) => r.m.class === c) }));
+---
+<PageLayout title={x.title} description={x.description} lang={lang} jsonLd={jsonLd} faqs={x.faqs} sources={sources}>
+  <header class="mb-4">
+    <h1 class="font-serif text-[1.75rem] font-bold text-navy-900 max-sm:leading-tight sm:text-3xl md:text-4xl">{x.h1}</h1>
+    <p class="mt-2 text-base text-navy-700 sm:text-lg">{x.intro}</p>
+  </header>
+  <div data-outil data-chrome><Tool kind="tow" idPrefix="home" /></div>
+  <p class="mt-3 text-sm text-navy-600">{K.MODELS.length} vehicles, {K.num(nRows)} configurations copied from the makers’ towing documents · <a href={route('method', lang)} class="underline">Sources and method</a> · <a href={route('about', lang)} class="underline">Who publishes this</a> · updated <time datetime={LAST_UPDATED}>{K.day(LAST_UPDATED)}</time></p>
+  <p class="mt-3 text-navy-800">{VALUE}</p>
+  <Clamp text={x.resume} lang={lang} id="clamp-home" class="my-8" />
+  <section data-chrome class="mt-8">
+    <h2 class="font-serif text-2xl font-bold text-navy-900">Highest towing rating of each vehicle, latest model year</h2>
+    <ol class="mt-4 space-y-2">
+      {rank.map(({ m, y }) => (
+        <li class="grid grid-cols-[minmax(0,11rem)_minmax(0,1fr)_auto] items-center gap-3 text-sm">
+          <span class="truncate font-medium text-navy-800">{hasPage(m.id) ? <a href={route(modelPageId(m.id), lang)} class="text-accent-700 underline-offset-2 hover:underline">{y.year} {fullName(m)}</a> : `${y.year} ${fullName(m)}`}</span>
+          <span aria-hidden="true" class="block h-3 rounded bg-accent-500/70" style={`width:${Math.max(4, (y.max / top) * 100)}%`}></span>
+          <span class="tabular-nums text-right font-semibold text-navy-900">{K.lb(y.max)}</span>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-3 text-sm text-navy-600">Conventional (bumper-pull) ratings, the best configuration of each table. The lowest configuration of the same vehicle can be less than half: each vehicle page lists them all.</p>
+  </section>
+  <section class="mt-8"><Body html={x.why(h)} path={path} /></section>
+  <section class="mt-10" data-chrome>
+    <h2 class="font-serif text-2xl font-bold text-navy-900">Vehicles by class</h2>
+    <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {classes.map(({ c, ms }) => (
+        <div>
+          <h3 class="font-semibold text-navy-900">{CLASS_LABEL[c] ?? c}</h3>
+          <ul class="mt-2 space-y-1 text-sm">
+            {ms.map(({ m, y }) => <li>{hasPage(m.id) ? <a href={route(modelPageId(m.id), lang)} class="text-accent-700 underline-offset-2 hover:underline">{fullName(m)}</a> : fullName(m)} <span class="text-navy-600">· {K.lb(y.min)} to {K.lb(y.max)} ({y.year})</span></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>

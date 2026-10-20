@@ -1,0 +1,56 @@
+---
+/** Method: the documents, the reading rules, the checks, a worked example, the limits. Figures from the kit. */
+import PageLayout from '../../layouts/PageLayout.astro';
+import { route } from '../../i18n/routes';
+import { KIT as K } from '../../lib/kit';
+import { src, table, ext } from '../../lib/helpers';
+import { VALUE } from '../../content/home';
+import { pagesText } from '../../lib/data';
+import { checkTow } from '../../lib/engine/towing';
+import { breadcrumbSchema, webPageSchema } from '../../lib/seo';
+const lang = 'en';
+const path = route('method', lang);
+const P = K.P;
+const nRows = K.MODELS.reduce((a, m) => a + m.years.reduce((b, y) => b + y.rows.length, 0), 0);
+const title = `Towing Capacity Method ${P.year}: Guides, Pages and Checks`;
+const description = `Towing capacity method for ${P.year}: ${K.num(nRows)} rows read in ${K.MODELS.length} vehicles' maker guides, how payload, GVWR and GCWR are checked, and which vehicles are left out.`;
+const coverage = K.MODELS.map((m) => {
+  const ys = m.years.map((y) => y.year);
+  const docs = m.years.map((y) => `${y.year}: ${ext(y.src.url, y.src.title)}${y.src.copy ? ` (${ext(y.src.copy, 'copy')})` : ''}, ${pagesText(y.src.pages)}`).join('<br>');
+  return [K.name(m.id), `${Math.min(...ys)} to ${Math.max(...ys)}`, K.num(m.years.reduce((a, y) => a + y.rows.length, 0)), docs];
+});
+const ex = K.Y('f-150');
+const exRow = K.top('f-150');
+const exLoad = { trailer: 9000, tongue: 1080, people: 600, cargo: 250, hitch: P.hitchWeight.conventional };
+const exPayload = 1700;
+const exR = checkTow({ trailer: exRow.t!, gcwr: exRow.gcwr, payload: exPayload, included: K.M('f-150').included }, exLoad, P.tongue.conventional, 10);
+const exG = exR.checks.find((c) => c.id === 'gcwr')!;
+const exP = exR.checks.find((c) => c.id === 'payload')!;
+---
+<PageLayout title={title} description={description} lang={lang} jsonLd={[webPageSchema({ name: 'How the ratings are read and checked', description, path, lang }), breadcrumbSchema([{ name: 'Home', path: route('home', lang) }, { name: 'Method', path }])]} breadcrumbs={[{ label: 'Method' }]}>
+  <article class="prose prose-slate max-w-none prose-headings:font-serif">
+    <h1>How the ratings are read and checked</h1>
+    <p><strong>Every towing figure on this site is a row of a maker's own document for one model year, copied with its page, and every verdict of the checker compares your load with five limits: the trailer rating, the tongue share, the payload, the GVWR and the GCWR.</strong> {K.num(nRows)} rows for {K.MODELS.length} vehicles were read in October 2026; one script turns them into the table that every page and calculator uses.</p>
+    <p>{VALUE}</p>
+    <h2>1. The documents</h2>
+    <p>Ford: the RV and Trailer Towing Guide of each model year (<Fragment set:html={src('ford_2026', 'Ford 2026 guide')} />). Ford's server refused automated reading, so the guides were read on dated copies kept by the Internet Archive, and both addresses are given. Chevrolet: the Trailering Guide of each model year, and for 2023 the trailering charts of the press site (<Fragment set:html={src('gm_2026', 'Chevrolet 2026 guide')} />). Ram and Jeep: the towing charts and specification sheets of the Stellantis media site. Kia: the specification pages of the Kia America newsroom. Dealer pages, magazines, forums and window-sticker decoders were never used as a source.</p>
+    <Fragment set:html={table(['Vehicle', 'Model years', 'Rows', 'Documents and pages'], coverage, 'One row is one configuration printed by the maker: engine, drive, cab, box or wheelbase, axle ratio and package.', ['l', 'l', 'r', 'l'])} />
+    <h2>2. Reading rules</h2>
+    <p>A row is copied as printed: the configuration words, the conventional trailer rating, and the GCWR, GVWR, payload, curb or base weight and fifth-wheel or gooseneck ratings when the same table gives them. Nothing is interpolated. When a cell is blank the site leaves it blank and the checker asks for your own figure. When a maker prints two values for one cell, for instance a separate value for a trim series in a footnote, the row keeps the value of the main configuration and the note says which. Two identical rows are kept once.</p>
+    <h2>3. The checks</h2>
+    <p>The trailer must not weigh more than the rating of your row. The tongue must sit between {P.tongue.conventional.min} and {P.tongue.conventional.max}% of the trailer, the range in Chevrolet's guide; Ford computes its tables with {P.fordTongue.conventional}%. The tongue, the people, the cargo and the hitch hardware ({K.num(P.hitchWeight.conventional)} lb by default, the figure Ram's charts assume) must fit within the payload. The same load plus the curb weight must fit within the GVWR, and the curb weight, the load and the trailer within the GCWR. Your door label wins over the maker's table for payload and GVWR: the certification label required by <Fragment set:html={src('cfr_567_4', '49 CFR 567.4')} /> and the placard of <Fragment set:html={src('cfr_571_110', '49 CFR 571.110')} /> describe your own vehicle with its options.</p>
+    <p>Ford and Chevrolet print a GCWR but no curb weight for each row. Their ratings are GCWR minus the curb weight of the configuration minus a {K.num(P.gmIncluded.driver)} lb driver and a {K.num(P.gmIncluded.passenger)} lb passenger, so the checker recovers the curb weight from those three numbers and counts only the people beyond the two the rating assumes. Ram prints a base weight per row and counts {K.num(P.ramAssumptions.passengers)} lb of passengers and {K.num(P.ramAssumptions.options)} lb of options in its ratings.</p>
+    <h2>4. A worked example</h2>
+    <p>Take the {ex.year} F-150 row rated {K.lb(exRow.t!)} with a GCWR of {K.lb(exRow.gcwr!)}, a door label showing {K.lb(exPayload)} of payload, a {K.lb(exLoad.trailer)} trailer with {K.lb(exLoad.tongue)} on the tongue, {K.lb(exLoad.people)} of people and {K.lb(exLoad.cargo)} of cargo. The trailer passes its rating, and the tongue is {K.dec(exLoad.tongue / exLoad.trailer * 100)}% of the trailer. The truck carries {K.lb(exP.used)} against {K.lb(exPayload)} of payload: {exP.ok ? 'it fits' : `${K.lb(-(exP.spare ?? 0))} too much`}. The combination weighs {K.lb(exG.used)} against a GCWR of {K.lb(exG.limit!)}. The verdict is "{exR.verdict}", and the heaviest trailer this load allows is {K.lb(exR.maxTrailer)}, set by the {exR.maxBy === 'gcwr' ? 'GCWR' : exR.maxBy}: the payload, not the {K.lb(exRow.t!)} headline, decides.</p>
+    <h2>5. Vehicles and years not covered</h2>
+    <p>Toyota (Tacoma, Tundra, 4Runner, Highlander, RAV4) publishes its ratings on toyota.com and its press site, which refused automated reading in October 2026; the site does not copy a Toyota figure from a third party. Model years before 2023 are covered only for the Telluride, whose newsroom pages remain online. Fifth-wheel and gooseneck ratings are copied for the Ford F-250 only; for the other pickups the site gives the conventional ratings.</p>
+    <h2>6. Limits</h2>
+    <ul>
+      <li>A rating applies to a vehicle "properly equipped", in the makers' words: the right hitch, cooling, tires and brake controller. The checker cannot see those parts.</li>
+      <li>Ford asks to reduce GVW and GCW by {P.altitude.percentPer1000ft}% per 1,000 ft of elevation; the checker does not, so keep a margin in the mountains.</li>
+      <li>State laws on trailer brakes, mirrors and speed differ and are not checked here.</li>
+      <li>Nothing here is a safety inspection. The labels on your vehicle and on your hitch win over any page.</li>
+    </ul>
+    <p>Corrections: <a href={route('contact', lang)}>contact page</a>.</p>
+  </article>
+</PageLayout>
