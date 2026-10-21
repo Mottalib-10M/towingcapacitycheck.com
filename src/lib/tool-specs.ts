@@ -210,9 +210,9 @@ function brakesSpec(a: V = {}): ToolSpec {
     run: (v) => {
       const need = B.filter((b) => n(v, 'tw') > b.above);
       return {
-        label: 'Does this trailer need its own brakes?', value: need.length === B.length ? 'Yes, for every maker' : need.length ? 'Yes, for some makers' : 'Not by the makers’ rules',
+        label: 'Does this trailer need its own brakes?', value: need.length === B.length ? 'Yes, by Ford and Chevrolet' : need.length ? 'Yes, for some of their models' : 'Not by Ford or Chevrolet',
         rows: B.map((b) => [b.who, n(v, 'tw') > b.above ? `required above ${lb(b.above)}` : `not required up to ${lb(b.above)}`] as [string, string]),
-        note: 'State laws set their own thresholds; check your state too.',
+        note: 'Ram, Jeep, Kia and Toyota print no threshold in the documents read. State laws set their own; check your state too.',
       };
     },
   };

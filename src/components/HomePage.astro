@@ -57,7 +57,7 @@ const classes = [...new Set(K.MODELS.map((m) => m.class))].map((c) => ({ c, ms: 
         <div>
           <h3 class="font-semibold text-navy-900">{CLASS_LABEL[c] ?? c}</h3>
           <ul class="mt-2 space-y-1 text-sm">
-            {ms.map(({ m, y }) => <li>{hasPage(m.id) ? <a href={route(modelPageId(m.id), lang)} class="text-accent-700 underline-offset-2 hover:underline">{fullName(m)}</a> : fullName(m)} <span class="text-navy-600">· {K.lb(y.min)} to {K.lb(y.max)} ({y.year})</span></li>)}
+            {ms.map(({ m, y }) => <li>{hasPage(m.id) ? <a href={route(modelPageId(m.id), lang)} class="text-accent-700 underline-offset-2 hover:underline">{fullName(m)}</a> : fullName(m)} <span class="text-navy-600">· {y.min === y.max ? `${K.lb(y.max)}, every configuration` : `${K.lb(y.min)} to ${K.lb(y.max)}`} ({y.year})</span></li>)}
           </ul>
         </div>
       ))}

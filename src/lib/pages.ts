@@ -19,5 +19,8 @@ export const MODEL_PAGES: ModelDef[] = Object.entries(s).map(([f, m]) => {
 export const modelPageId = (id: string) => `model:${id}`;
 export const modelPageById = (pid: string) => MODEL_PAGES.find((p) => modelPageId(p.id) === pid);
 export const modelSlug = (id: string) => modelOf(id).slug;
-/** First guide that carries a calculator: the target of a mini-simulator's link. */
-export const pageOfTool = (kind: string) => (kind === 'tow' || kind === 'cap' ? 'home' : GUIDES.find((p) => p.tool === kind)?.id);
+/** The guide named after the calculator when there is one (payload → payload-capacity, tongue → tongue-weight),
+ *  else the first guide that carries it: the target of a mini-simulator's link. */
+const TOOL_HOME: Record<string, string> = { payload: 'payload-capacity', tongue: 'tongue-weight' };
+export const pageOfTool = (kind: string) => (kind === 'tow' || kind === 'cap' ? 'home'
+  : GUIDES.find((p) => p.tool === kind && p.id === TOOL_HOME[kind])?.id ?? GUIDES.find((p) => p.tool === kind)?.id);

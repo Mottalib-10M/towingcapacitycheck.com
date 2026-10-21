@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /*?*
 
-Sitemap: https://us-towing-capacity.example/sitemap-index.xml
+Sitemap: https://towingcapacitycheck.com/sitemap-index.xml

@@ -11,7 +11,7 @@
  *   formats                 K.lb(11600) "11,600 lb", K.num, K.dec, K.pct, K.day("2026-10-20") "October 20, 2026"
  */
 import P from '../data/params-2026.json';
-import { MODELS, modelOf, yearOf, latest, topRow, byEngine, byAxle, ranking, fullName, RETRIEVED, CLASS_LABEL } from './data';
+import { MODELS, modelOf, yearOf, latest, topRow, byEngine, byAxle, ranking, fullName, RETRIEVED, RETRIEVED_FROM, CLASS_LABEL } from './data';
 import { lb, pct, getTool, longDate } from './tool-specs';
 import { formatNumber, formatDecimal } from './format';
 import type { V } from './tool-types';
@@ -34,6 +34,10 @@ export const KIT = {
   name: (id: string) => fullName(modelOf(id)),
   years: (id: string) => modelOf(id).years.map((y) => y.year),
   rank: ranking,
+  /** "October 20 to 21, 2026" when the documents were read over two days, else one date. */
+  readSpan: () => (RETRIEVED_FROM === RETRIEVED ? longDate(RETRIEVED)
+    : RETRIEVED_FROM.slice(0, 7) === RETRIEVED.slice(0, 7) ? `${longDate(RETRIEVED_FROM).replace(/, \d{4}$/, '')} to ${Number(RETRIEVED.slice(8))}, ${RETRIEVED.slice(0, 4)}`
+    : `${longDate(RETRIEVED_FROM)} to ${longDate(RETRIEVED)}`),
   tool,
   lb, pct, num: (x: number) => formatNumber(x, 0), dec: (x: number, d = 1) => formatDecimal(x, d), day: longDate,
 };

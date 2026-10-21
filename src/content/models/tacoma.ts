@@ -12,6 +12,7 @@ const sr = y.rows.find((r) => r.pk === 'SR')!;
 const xtra = y.rows.find((r) => r.cab === 'XtraCab' && r.pk !== 'SR' && !isMax(r))!;
 const dbl = y.rows.find((r) => r.cab === 'Double Cab' && r.pk !== 'SR' && !isMax(r))!;
 const hy = y.rows.find(isMax)!;
+const dbl4 = y.rows.find((r) => r.cab === 'Double Cab' && r.d === '4x4' && r.pk !== 'SR' && !isMax(r))!;
 const v6 = K.top(ID, first);
 const i4old = y23.rows.find((r) => !r.pk)!;
 const v6low = Math.min(...y23.rows.filter((r) => r.pk).map((r) => r.t!));
@@ -34,7 +35,7 @@ export default defineModel({
 <p>Toyota does not split the Tacoma by axle ratio or tow package the way Ford and Chevrolet do. The ${y.year} sheet has one towing table with four columns, 4x2 and 4x4, XtraCab and Double Cab (${h.doc(ID, y.year, `${y.year} product information`)}). The XtraCab, the two-door body with small rear access doors, reads ${K.lb(xtra.t!)}; the Double Cab reads ${K.lb(dbl.t!)}, because it is heavier and carries more people. Under every figure Toyota adds a footnote for the SR, the entry grade, at ${K.lb(sr.t!)}. Page 1 of the sheet lists the SR automatic with a lower output tune of the same 2.4-liter engine, so a Tacoma bought as an SR is a light trailer truck whatever its cab. Check the grade badge before you shop for a camper.</p>
 ${h.mini('cap', { t: 'Tacoma maximum by model year', p: ['y'], d: { m: ID } })}
 <h2>The hybrid rates lower</h2>
-<p>The i-FORCE MAX adds an electric motor and a battery to the same engine, and that hardware weighs. Its curb weight is printed up to ${K.lb(hy.cw!)}, against ${K.lb(dbl.cw!)} at most for the gasoline Double Cab 4x4, and Toyota rates it ${hyRange} lb rather than ${K.lb(dbl.t!)}. The sheet does not say which grade gets which end of that range, so the site keeps the lower one. The hybrid gains on GVWR, printed from ${K.lb(hy.gvwr!)}, but buyers who tow first and drive empty second will find the gasoline Double Cab rated higher for less money.</p>
+<p>The i-FORCE MAX adds an electric motor and a battery to the same engine, and that hardware weighs. Its curb weight is printed up to ${K.lb(hy.cw!)}, against ${K.lb(dbl4.cw!)} at most for the gasoline Double Cab 4x4, and Toyota rates it ${hyRange} lb rather than ${K.lb(dbl.t!)}. The sheet does not say which grade gets which end of that range, so the site keeps the lower one. The hybrid gains on GVWR, printed from ${K.lb(hy.gvwr!)}, but buyers who tow first and drive empty second will find the gasoline Double Cab rated higher.</p>
 <h2>Tongue weight and payload</h2>
 <p>Toyota prints a maximum tongue weight in the same table: ${K.lb(tongue(xtra))} for the XtraCab and ${K.lb(tongue(dbl))} for the Double Cab, a tenth of the trailer rating. At the usual ${T.min} to ${T.max}% share, a ${K.lb(dbl.t!)} trailer puts ${K.lb((dbl.t! * T.min) / 100)} to ${K.lb((dbl.t! * T.max) / 100)} on the ball, so the upper part of that band already exceeds Toyota's cap. Aim for the low end. The printed payload starts at ${K.lb(plMin)} on the gasoline trucks, and the tongue, the hitch, the driver, the passengers and the bed load all come out of it. A Double Cab with four adults and a loaded bed reaches its payload long before its trailer rating.</p>
 ${h.mini('payload', { t: 'Tacoma: payload left after people and cargo', d: { pl: dbl.pl! } })}

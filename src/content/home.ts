@@ -42,5 +42,5 @@ ${h.mini('axle', { t: 'Ratings by axle ratio', p: ['m', 'y'], d: { m: 'ram-1500'
     { q: 'Should I keep a safety margin below the towing rating?', a: `The ratings are legal ceilings, not targets, and the makers compute them on flat roads at sea level with a nearly empty vehicle. Ford asks owners to cut the GVW and GCW by ${K.P.altitude.percentPer1000ft}% per 1,000 ft of elevation. The checker lets you choose a margin, 10% by default, and calls a tow "tight" when any limit is used beyond it, so you can see how much room the load leaves.` },
     { q: 'Where do the Toyota Tacoma and Tundra figures come from?', a: `From the product information sheets that the Toyota USA newsroom publishes for each model year, read page by page in October 2026 for the Tacoma, Tundra, 4Runner, Highlander and RAV4, ${K.years('tundra').slice(-1)[0]} to ${K.Y('tundra').year}. Toyota prints a rating per grade, cab and bed rather than per axle ratio, and often a curb weight, which the checker uses. No Toyota figure comes from a dealer or a magazine.` },
   ] as FAQ[],
-  sources: ['ford_2026', 'gm_2026', 'ram1500_2026', 'ram2500_2026', 'jeep_gc_2026', 'kia_telluride_2025', 'cfr_567_4', 'cfr_571_110'],
+  sources: ['ford_2026', 'gm_2026', 'ram1500_2026', 'ram2500_2026', 'jeep_gc_2026', 'kia_telluride_2025', 'toyota_tundra_2026', 'toyota_tacoma_2026', 'cfr_567_4', 'cfr_571_110'],
 };

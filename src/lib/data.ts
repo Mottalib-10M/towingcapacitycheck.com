@@ -15,6 +15,8 @@ export interface Model { id: string; slug: string; make: string; model: string; 
 
 export const MODELS = (RAW as unknown as { models: Model[] }).models;
 export const RETRIEVED = (RAW as unknown as { retrieved: string }).retrieved;
+/** First reading day of the documents (RETRIEVED is the last one). */
+export const RETRIEVED_FROM = (RAW as unknown as { retrievedFrom?: string }).retrievedFrom ?? RETRIEVED;
 export const MODEL_IDS = MODELS.map((m) => m.id);
 
 export const modelOf = (id: string) => { const m = MODELS.find((x) => x.id === id); if (!m) throw new Error(`Unknown model ${id}`); return m; };

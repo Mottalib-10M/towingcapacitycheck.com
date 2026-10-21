@@ -87,6 +87,10 @@ def main():
                     'gvwr': num(c.get('gvwr')), 'pl': num(c.get('payload')), 'cw': num(c.get('baseWeight')),
                     'rg': num(c.get('gawrRear')), 'p': c.get('page'), 'n': clean(c.get('note')),
                 }
+                # Toyota hybrid rows come from the second (hybrid) sheet: the page column says so.
+                hp = re.search(r'Hybrid product information, p\. (\d+)', r['n'] or '')
+                if r['p'] is None and hp:
+                    r['p'] = f'{hp.group(1)} (hybrid sheet)'
                 key = json.dumps({k: v for k, v in r.items() if k not in ('p', 'n')}, sort_keys=True)
                 if key in seen:
                     continue
@@ -114,6 +118,10 @@ def main():
         m['included'] = INCLUDED.get(f['make'])
         if m['years']:
             out['models'].append(m)
+    # Reading dates of the documents: first and last day (Toyota was read a day after the others).
+    reads = sorted({y['src']['read'] for m in out['models'] for y in m['years']})
+    if reads:
+        out['retrievedFrom'], out['retrieved'] = reads[0], reads[-1]
     json.dump(out, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     # Light copy for the browser: labels in one table, rows as arrays [label, t, gcwr, gvwr, pl, cw, page, axle].
     labels, idx = [], {}

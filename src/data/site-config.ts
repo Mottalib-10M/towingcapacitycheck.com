@@ -1,5 +1,5 @@
 /** Configuration centrale du site (générée par new-site.py). */
-export const SITE_URL = "https://us-towing-capacity.example";
+export const SITE_URL = "https://towingcapacitycheck.com";
 export const SITE_NAMES: Record<string, string> = {"en": "Towing Capacity Check"};
 export const LANG_TAGS: Record<string, string> = {"en": "en-US"};
 export const OG_LOCALES: Record<string, string> = {"en": "en_US"};
@@ -8,15 +8,15 @@ export const CURRENCY = 'USD';
 export const YEAR = 2026;
 /** Année de création du site — signal d'ancienneté (RECETTE §8.0). */
 export const SITE_FOUNDED = '2026';
-export const LAST_UPDATED = '2026-10-20';
+export const LAST_UPDATED = '2026-10-21';
 export const AUTHOR_NAME = 'Radif Partners';
 export const AUTHOR_ROLE: Record<string, string> = {"en": "Independent publisher of towing ratings read in the trailering guides and specification sheets that truck and SUV makers publish each model year"};
-export const AUTHOR_DESC: Record<string, string> = {"en": "Radif Partners reads the towing guides and spec sheets that Ford, Chevrolet, Ram, Jeep and Kia publish for every model year, and keeps the ratings line by line: engine, cab, axle ratio, tow package, GCWR and the trailer weight that goes with them. The checker then adds your trailer, its tongue weight, your passengers and your cargo, and tests each rating in turn. Every number names its guide, page and year. The site sells no truck, hitch or trailer and asks for no contact details."};
+export const AUTHOR_DESC: Record<string, string> = {"en": "Radif Partners reads the towing guides and spec sheets that Ford, Chevrolet, Ram, Jeep, Kia and Toyota publish for every model year, and keeps the ratings line by line: engine, cab, axle ratio, tow package, GCWR and the trailer weight that goes with them. The checker then adds your trailer, its tongue weight, your passengers and your cargo, and tests each rating in turn. Every number names its guide, page and year. The site sells no truck, hitch or trailer and asks for no contact details."};
 /** Sujets sur lesquels l'editeur est competent (schema.org knowsAbout). Ce sont les
  *  themes reellement traites par le site, pas une liste de mots-cles : un sujet
  *  declare ici sans page qui le couvre est une declaration fausse. */
 export const KNOWS_ABOUT: Record<string, string[]> = {"en": ["Trailer weight ratings by truck and SUV model year and configuration", "GVWR, GCWR, payload and tongue weight checks for trailer towing", "Axle ratios, tow packages and how they change towing capacity", "Fifth-wheel and gooseneck ratings for heavy duty pickups", "Reading a vehicle's tire and loading label and certification label"]};
-export const CONTACT_EMAIL = "contact@us-towing-capacity.example";
+export const CONTACT_EMAIL = "contact@towingcapacitycheck.com";
 export const THEME_COLOR = '#2E5E4E';
 export const LOGO_SYMBOL = 'TOW';
 export const BING_VERIFY_CODE = '';

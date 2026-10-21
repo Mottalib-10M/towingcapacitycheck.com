@@ -12,6 +12,7 @@ const APPLIES: Array<[typeof ford, string[]]> = [
   [gmOther, ['colorado']],
 ];
 const none = ['ram-1500', 'ram-2500', 'grand-cherokee', 'telluride'];
+const toyota = ['tundra', 'tacoma', '4runner', 'highlander', 'rav4'];
 const xplNote = K.Y('explorer').notes.find((n) => /electric trailer brakes/.test(n)) ?? '';
 const low = Math.min(...B.map((b) => b.above));
 const high = Math.max(...B.map((b) => b.above));
@@ -34,7 +35,7 @@ export default defineGuide({
 <h2>The makers' thresholds</h2>
 <p>The table gives each rule as printed and the vehicles covered here to which it applies. Ford states its rule on page 6 of its ${h.src('ford_2026', 'towing guide')}, Chevrolet on page 6 of its ${h.src('gm_2026', 'trailering guide')}.</p>
 ${h.table(['Maker rule', 'Brakes required above', 'Vehicles on this site'], APPLIES.map(([b, ids]) => [b.who, K.lb(b.above), ids.map((id) => h.a(`model:${id}`, K.name(id))).join(', ')]), 'Trailer weight above which the vehicle maker requires trailer brakes.', ['l', 'r', 'l'])}
-<p>The Ram and Jeep charts and the Kia specification pages we read for the ${and(none.map(K.name))} do not state a trailer brake threshold, so the site gives none for them; their owner's manuals are the place to look. Kia's page, for instance, gives towing capacities but no brake or hitch condition.</p>
+<p>The Ram and Jeep charts and the Kia specification pages we read for the ${and(none.map(K.name))} do not state a trailer brake threshold, so the site gives none for them; their owner's manuals are the place to look. Kia's page, for instance, gives towing capacities but no brake or hitch condition. The same holds for the Toyota product information sheets we read for the ${and(toyota.map((id) => K.M(id).model))}: their towing tables print ratings, weights and sometimes a tongue limit, but no brake threshold.</p>
 <h2>Why a light threshold</h2>
 <p>A vehicle's brakes are sized for its own GVWR, not for the extra mass of a trailer pushing from behind. Without trailer brakes, every pound of trailer has to be stopped by the tow vehicle's tires and pads, and the stopping distance grows with the trailer's weight. The thresholds are low, ${K.lb(low)} to ${K.lb(high)}, because the penalty starts early: a small utility trailer with a heavy load can cross them. Weigh a loaded trailer at least once before deciding it is light enough to go without.</p>
 ${h.mini('camper', { t: 'Loaded weight, not dry weight, decides', d: { dw: 2400, wa: 0, gr: 500, gv: ex } })}

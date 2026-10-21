@@ -56,5 +56,5 @@ ${h.mini('payload', { t: 'Payload left once the family is aboard', d: { pl: 1600
   ],
   tool: 'cap',
   related: ['towing-capacity-chart', 'truck-towing-capacity', 'suv-towing-capacity', 'how-to-calculate-towing-capacity', 'payload-capacity'],
-  sources: ['ford_2026', 'gm_2026', 'ram1500_2026', 'ram2500_2026', 'jeep_gc_2026', 'kia_telluride_2025'],
+  sources: ['ford_2026', 'gm_2026', 'ram1500_2026', 'ram2500_2026', 'jeep_gc_2026', 'kia_telluride_2025', 'toyota_tundra_2026', 'toyota_tacoma_2026', 'toyota_rav4_2026'],
 });

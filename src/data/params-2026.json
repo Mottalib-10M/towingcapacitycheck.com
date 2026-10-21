@@ -188,6 +188,36 @@
    "label": {
     "en": "Ford, 2023 RV & Trailer Towing Guide (PDF), archived copy (Ford's address no longer serves it)"
    }
+  },
+  "toyota_tundra_2026": {
+   "url": "https://pressroom.toyota.com/vehicle/2026-toyota-tundra/",
+   "label": {
+    "en": "Toyota USA Newsroom, 2026 Toyota Tundra product information"
+   }
+  },
+  "toyota_tacoma_2026": {
+   "url": "https://pressroom.toyota.com/vehicle/2026-toyota-tacoma/",
+   "label": {
+    "en": "Toyota USA Newsroom, 2026 Toyota Tacoma product information"
+   }
+  },
+  "toyota_4runner_2026": {
+   "url": "https://pressroom.toyota.com/vehicle/2026-toyota-4runner/",
+   "label": {
+    "en": "Toyota USA Newsroom, 2026 Toyota 4Runner product information"
+   }
+  },
+  "toyota_highlander_2026": {
+   "url": "https://pressroom.toyota.com/vehicle/2026-toyota-highlander/",
+   "label": {
+    "en": "Toyota USA Newsroom, 2026 Toyota Highlander product information"
+   }
+  },
+  "toyota_rav4_2026": {
+   "url": "https://pressroom.toyota.com/vehicle/2026-toyota-rav4/",
+   "label": {
+    "en": "Toyota USA Newsroom, 2026 Toyota RAV4 product information"
+   }
   }
  },
  "fordTongue": {
@@ -205,7 +235,11 @@
   "wc": 5000,
   "wcTongue": 500,
   "wd": 13500,
-  "wdTongue": 1400, "maxNoPack": 11600, "maxTowReceiver": 14000, "hybridSummary": 11600, "_source2": "ford_2026 p. 19: trailers over 11,600 lbs. need Tow/Haul Package (53T) and optional Max Tow Axle, standard 2-inch receiver rated 11,600, Max Tow Axle receiver 14,000; p. 12 performance table prints Hybrid max towing 11,600",
+  "wdTongue": 1400,
+  "maxNoPack": 11600,
+  "maxTowReceiver": 14000,
+  "hybridSummary": 11600,
+  "_source2": "ford_2026 p. 19: trailers over 11,600 lbs. need Tow/Haul Package (53T) and optional Max Tow Axle, standard 2-inch receiver rated 11,600, Max Tow Axle receiver 14,000; p. 12 performance table prints Hybrid max towing 11,600",
   "_source": "ford_2026 p. 19: hitch receiver weight-carrying 5,000 lbs./500 tongue; weight-distributing 13,500 lbs./1,400 tongue"
  }
 }

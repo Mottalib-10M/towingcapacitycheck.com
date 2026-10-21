@@ -87,3 +87,43 @@ describe('calculators', () => {
     }
   });
 });
+
+/* Three cases recomputed by hand on 2026-10-21 against the makers' rows, run through the checker as a reader would
+ * use it (tool 'tow', configuration 0 = the top row of the year, sorted heaviest first). */
+describe('checker, three cases worked by hand', () => {
+  const run = (v: Record<string, string | number>) => {
+    const spec = getTool('tow', { m: String(v.m) });
+    const out = spec.run({ ...Object.fromEntries(spec.inputs.map((i) => [i.id, i.def])), ...v });
+    return { value: out.value, rows: Object.fromEntries(out.rows.map((r) => [r[0], r[1]])), sub: out.sub };
+  };
+  it('2026 Toyota Tundra SR5 Double Cab 4x2 (12,000 lb, GCWR 17,250, GVWR 7,035, payload 1,940, curb 5,215; Toyota sheet p. 6)', () => {
+    // 9,000 lb trailer, 1,080 lb tongue (12%), 350 lb people, 150 lb cargo, 75 lb hitch.
+    // Payload 350+150+75+1,080 = 1,655 of 1,940. GVWR 5,215+1,655 = 6,870 of 7,035 (97.7%, past the 10% margin: tight).
+    // GCWR 5,215+350+150+75+9,000 = 14,790 of 17,250. Heaviest trailer: GVWR (7,035-5,215-575)/0.12 = 10,375.
+    const r = run({ m: 'tundra', y: '2026', c: '0', tw: 9000, tg: 1080, pp: 350, cg: 150, hz: 75, mg: 10 });
+    expect(r.sub).toContain('12,000 lb');
+    expect(r.value).toBe('Within, little margin');
+    expect(r.rows['Load on the vehicle vs payload']).toBe('1,655 lb of 1,940 lb ✓');
+    expect(r.rows['Vehicle weight vs GVWR']).toBe('6,870 lb of 7,035 lb ✓');
+    expect(r.rows['Truck plus trailer vs GCWR']).toBe('14,790 lb of 17,250 lb ✓');
+    expect(r.rows['Heaviest trailer with this load (set by GVWR)']).toBe('10,375 lb');
+  });
+  it('2026 Ford F-150 top row (13,500 lb, GCWR 19,400; Ford guide p. 16) with a 1,800 lb door-label payload', () => {
+    // 10,000 lb trailer, 1,000 lb tongue (10%), 600 lb people, 200 lb cargo, 75 lb hitch.
+    // Payload 600+200+75+1,000 = 1,875 of 1,800: over by 75. Implied curb 19,400-13,500-300 = 5,600;
+    // GCWR 5,600+600+200+75+10,000 = 16,475 of 19,400. Heaviest trailer: payload (1,800-875)/0.10 = 9,250.
+    const r = run({ m: 'f-150', y: '2026', c: '0', tw: 10000, tg: 1000, pp: 600, cg: 200, hz: 75, pl: 1800 });
+    expect(r.value).toBe('Over by 75 lb');
+    expect(r.rows['Truck plus trailer vs GCWR (curb implied by the rating)']).toBe('16,475 lb of 19,400 lb ✓');
+    expect(r.rows['Heaviest trailer with this load (set by payload)']).toBe('9,250 lb');
+  });
+  it('2026 Chevrolet Silverado 1500 top row (13,300 lb, GCWR 19,000; Chevrolet guide p. 26) behind a 13,500 lb trailer', () => {
+    // Trailer 13,500 of 13,300: over by 200. Implied curb 19,000-13,300-300 = 5,400;
+    // GCWR 5,400+300+0+75+13,500 = 19,275 of 19,000: over. Heaviest trailer: GCWR 19,000-5,775 = 13,225.
+    const r = run({ m: 'silverado-1500', y: '2026', c: '0', tw: 13500, tg: 1350, pp: 300, cg: 0, hz: 75 });
+    expect(r.value).toBe('Over by 200 lb');
+    expect(r.rows['Trailer vs trailer weight rating']).toBe('13,500 lb of 13,300 lb ✗');
+    expect(r.rows['Truck plus trailer vs GCWR (curb implied by the rating)']).toBe('19,275 lb of 19,000 lb ✗');
+    expect(r.rows['Heaviest trailer with this load (set by GCWR)']).toBe('13,225 lb');
+  });
+});

@@ -4,7 +4,7 @@ import { KIT as K } from '../../lib/kit';
 const P = K.P;
 const note = (id: string, re: RegExp, year?: number) => { const n = K.Y(id, year).notes.find((x) => re.test(x)); if (!n) throw new Error(`${id}: no note ${re}`); return n; };
 
-const printed = K.rank().filter((x) => x.y.maxPl).map((x) => x.m.id);
+const printed = K.rank().filter((x) => x.y.maxPl).sort((a, b) => (b.y.maxPl ?? 0) - (a.y.maxPl ?? 0)).map((x) => x.m.id);
 const ry = K.Y('ram-1500');
 const cabs = [...new Set(ry.rows.map((r) => r.cab).filter((c): c is string => !!c))].map((c) => {
   const xs = ry.rows.filter((r) => r.cab === c && r.pl).map((r) => r.pl as number);
@@ -38,7 +38,7 @@ export default defineGuide({
 <h2>How the makers define it</h2>
 <p>The legal anchor is the placard required by ${h.src('cfr_571_110', '49 CFR 571.110')}: it states the combined weight of occupants and cargo that should never be exceeded. The certification label next to it gives the GVWR (${h.src('cfr_567_4', '49 CFR 567.4')}). The makers describe payload in the same spirit. Ram's chart notes put it as an equation, ${/GVWR/.test(ramDef) ? 'the GVWR minus the base weight' : 'a weight difference'}. Jeep's specification sheet says: "${jeepDef.replace(/\.$/, '')}". The base or curb weight assumes full fluids and standard equipment, so every option bolted on at the factory or later already eats into the figure before anyone climbs aboard.</p>
 <h2>The payloads the makers print</h2>
-<p>Only some documents print payload at all. Ram and Jeep give it per configuration; Ford's F-150 guide gives one maximum in its performance table; Chevrolet's trailering guide and Ford's heavy duty tables leave it to the door label.</p>
+<p>Only some documents print payload at all. Ram and Jeep give it per configuration, and so do Toyota's sheets for the Tundra and the Tacoma (the 4Runner and Highlander sheets stopped printing it after the 2024 and 2023 model years); Ford's F-150 guide gives one maximum in its performance table; Chevrolet's trailering guide and Ford's heavy duty tables leave it to the door label.</p>
 ${h.table(['Vehicle', 'Year', 'Highest payload printed', 'Where'], printed.map((id) => [h.a(`model:${id}`, K.name(id)), String(K.Y(id).year), K.lb(K.Y(id).maxPl ?? 0), id === 'f-150' ? 'performance table, one engine' : 'per configuration']), 'Highest payload in each maker document that prints one, latest model year.', ['l', 'r', 'r', 'l'])}
 <p>A maximum is the lightest, simplest build: on the Ram 1500 it is a ${K.Y('ram-1500').rows.find((r) => r.pl === K.Y('ram-1500').maxPl)?.cab ?? 'base'} work truck. Across the whole ${ry.year} chart, the lightest and the heaviest builds differ by ${K.lb(Math.max(...plAll) - Math.min(...plAll))} of payload. Well-equipped crew cabs sit far lower, as the next table shows. Kia prints no payload for the Telluride, but its GVWR minus the curb weight of the X-Pro gives ${K.lb(telPay)}.</p>
 ${h.table(['Ram 1500 cab', 'Lowest payload', 'Highest payload', 'Rows'], cabs.map((c) => [c.c, K.lb(c.lo), K.lb(c.hi), c.n]), `Ram 1500, ${ry.year}: payload range by cab.`, ['l', 'r', 'r', 'r'])}
