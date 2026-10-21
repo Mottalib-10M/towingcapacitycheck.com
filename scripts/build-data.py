@@ -12,15 +12,16 @@ OUT = os.path.join(ROOT, 'src', 'data', 'towing.json')
 
 # Display order and page slug of each model (the slug is the page URL segment).
 MODELS = [
-    ('f-150', 'f-150-towing-capacity'), ('ram-1500', 'ram-1500-towing-capacity'), ('silverado-1500', 'silverado-towing-capacity'),
+    ('f-150', 'f-150-towing-capacity'), ('ram-1500', 'ram-1500-towing-capacity'), ('silverado-1500', 'silverado-towing-capacity'), ('tundra', 'tundra-towing-capacity'),
     ('f-250', 'f-250-towing-capacity'), ('ram-2500', 'ram-2500-towing-capacity'), ('tahoe', 'tahoe-towing-capacity'),
     ('expedition', 'expedition-towing-capacity'), ('grand-cherokee', 'jeep-grand-cherokee-towing-capacity'),
-    ('colorado', 'colorado-towing-capacity'), ('ranger', 'ranger-towing-capacity'), ('maverick', 'maverick-towing-capacity'),
+    ('colorado', 'colorado-towing-capacity'), ('tacoma', 'tacoma-towing-capacity'), ('ranger', 'ranger-towing-capacity'), ('maverick', 'maverick-towing-capacity'),
     ('explorer', 'explorer-towing-capacity'), ('telluride', 'telluride-towing-capacity'),
+    ('4runner', '4runner-towing-capacity'), ('highlander', 'highlander-towing-capacity'), ('rav4', 'rav4-towing-capacity'),
 ]
 # Who the maker's rating assumes is aboard (pounds): Ford guide 2026 p. 7 and Chevrolet guide 2026 p. 7, a driver and a
-# front passenger at 150 lb each. Ram prints a base weight per row, Jeep and Kia a curb weight: no assumption needed.
-INCLUDED = {'Ford': 300, 'Chevrolet': 300, 'Ram': None, 'Jeep': None, 'Kia': None}
+# front passenger at 150 lb each. Ram prints a base weight per row, Jeep, Kia and Toyota a curb weight: no assumption needed.
+INCLUDED = {'Ford': 300, 'Chevrolet': 300, 'Ram': None, 'Jeep': None, 'Kia': None, 'Toyota': None}
 
 
 def clean(s):
@@ -106,7 +107,8 @@ def main():
                 'year': int(year), 'max': mx,
                 'maxFw': max((r.get('fw') or 0) for r in rows) or None, 'maxGn': max((r.get('gn') or 0) for r in rows) or None,
                 'maxPl': num(y.get('maxPayload')), 'min': min(r['t'] for r in rows if r.get('t')),
-                'src': {'title': src['title'], 'url': src['url'], 'copy': src.get('copy'), 'pages': str(src.get('pages', '')), 'read': src.get('read', '2026-10-20')},
+                'src': {'title': src['title'], 'url': src['url'], 'copy': src.get('copy'), 'pages': str(src.get('pages', '')), 'read': src.get('read', '2026-10-20'),
+                        **({'hybrid': {'title': src['title'].replace(f['model'] + ' Product', f['model'] + ' Hybrid Product'), 'url': src['hybrid']['url'], 'pages': src['hybrid']['pages']}} if src.get('hybrid') else {})},
                 'notes': y.get('notes', []), 'rows': rows,
             })
         m['included'] = INCLUDED.get(f['make'])

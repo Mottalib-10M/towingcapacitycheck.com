@@ -9,7 +9,7 @@
 import RAW from '../data/towing.json';
 
 export interface Row { l: string; e?: string; d?: string; ax?: string; pk?: string; tb?: string; cab?: string; t?: number; fw?: number; gn?: number; gcwr?: number; gvwr?: number; pl?: number; cw?: number; rg?: number; p?: number | string; n?: string }
-export interface Src { title: string; url: string; copy: string | null; pages: string; read: string }
+export interface Src { title: string; url: string; copy: string | null; pages: string; read: string; hybrid?: { title: string; url: string; pages: string } }
 export interface Year { year: number; max: number; min: number; maxFw: number | null; maxGn: number | null; maxPl: number | null; src: Src; notes: string[]; rows: Row[] }
 export interface Model { id: string; slug: string; make: string; model: string; class: string; included: number | null; years: Year[] }
 
@@ -53,7 +53,7 @@ export function byAxle(y: Year) {
 export const ranking = () => MODELS.map((m) => ({ m, y: latest(m) })).sort((a, b) => b.y.max - a.y.max);
 export const CLASS_LABEL: Record<string, string> = {
   'half-ton pickup': 'Half-ton pickup', 'heavy duty pickup': 'Heavy duty pickup', 'midsize pickup': 'Midsize pickup',
-  'compact pickup': 'Compact pickup', 'full-size SUV': 'Full-size SUV', 'midsize SUV': 'Midsize SUV', 'three-row SUV': 'Three-row SUV',
+  'compact pickup': 'Compact pickup', 'full-size SUV': 'Full-size SUV', 'midsize SUV': 'Midsize SUV', 'compact SUV': 'Compact SUV', 'three-row SUV': 'Three-row SUV',
 };
 /** "p. 19" for a page number, the text as is otherwise ("specifications table"). */
 export const pagesText = (pages: string) => (/^\d/.test(pages) ? `p. ${pages}` : pages);
